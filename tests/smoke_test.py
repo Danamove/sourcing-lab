@@ -46,11 +46,13 @@ def make_fixture(tmp):
     shutil.copy2(ROOT / ".github" / "workflows" / "refresh.yml", wf / "refresh.yml")
 
     handles = ["test_recruiter_a", "test_sourcer_b"]
+    # test_empty_c has profile details but no reels in the window (no _posts.json)
+    # — must render with zero reels, not fail the build.
     (tmp / "config.json").write_text(json.dumps({
         "creators": [
             {"handle": h, "name": h, "followers": 1000, "posts": 10,
              "verified": False, "private": False, "profilePic": ""}
-            for h in handles
+            for h in handles + ["test_empty_c"]
         ]
     }), encoding="utf-8")
 
@@ -78,6 +80,10 @@ def make_fixture(tmp):
             "followersCount": 1234, "postsCount": 10, "verified": False,
         }]}}
         (data / f"{h}_details.json").write_text(json.dumps(details), encoding="utf-8")
+    (data / "test_empty_c_details.json").write_text(json.dumps(
+        {"dataset": {"previewItems": [{"username": "test_empty_c", "fullName": "Empty C",
+                                       "followersCount": 99, "postsCount": 0, "verified": False}]}}
+    ), encoding="utf-8")
     (tmp / "thumbs").mkdir()
     (tmp / "clips").mkdir()
     return handles
@@ -118,6 +124,7 @@ def main():
             (f"@{handles[0]}", "creator handle rendered"),
             ("Stop sending boring outreach messages", "spoken hook rendered"),
             ("Breakout", "outlier bands rendered"),
+            ("@test_empty_c", "zero-reel creator still gets a chip"),
         ]:
             if needle not in html:
                 fail(f"dashboard missing: {label}", f"needle={needle!r}")
@@ -148,9 +155,9 @@ def main():
                 fail("admin server did not come up")
             if state["tokenSet"] is not False:
                 fail("/api/state tokenSet should be false without .env")
-            if len(state["creators"]) != 2:
-                fail("/api/state creators", f"expected 2, got {len(state['creators'])}")
-            ok("/api/state → 200, no token, 2 creators")
+            if len(state["creators"]) != 3:
+                fail("/api/state creators", f"expected 3, got {len(state['creators'])}")
+            ok("/api/state → 200, no token, 3 creators")
 
             status, sched = http_get("/api/schedule")
             if sched.get("cron") != "0 4 * * 0":

@@ -125,7 +125,10 @@ def outlier_band(ratio):
 
 
 def load_creator(handle):
-    posts = load(DATA / f"{handle}_posts.json")["items"]
+    # A creator with no reels in the window has no _posts.json — that's data,
+    # not an error: render them with zero reels instead of failing the build.
+    posts_path = DATA / f"{handle}_posts.json"
+    posts = load(posts_path)["items"] if posts_path.exists() else []
     details = load(DATA / f"{handle}_details.json")["dataset"]["previewItems"][0]
     return posts, details
 
@@ -163,7 +166,11 @@ def main():
     all_rows = []  # flat list of reels across all creators
 
     for handle in CREATORS:
-        posts, details = load_creator(handle)
+        try:
+            posts, details = load_creator(handle)
+        except (FileNotFoundError, KeyError, IndexError):
+            print(f"  ! no scraped data for @{handle} yet — skipping")
+            continue
         views_list = [p.get("videoPlayCount") or p.get("videoViewCount") or 0 for p in posts]
         median_plays = statistics.median(views_list) if views_list else 0
 
