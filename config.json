@@ -1,0 +1,67 @@
+{
+  "creators": [
+    {
+      "handle": "advicewitherin",
+      "name": "AdviceWithErin | Career & Life Advice",
+      "followers": 2000000,
+      "posts": 0,
+      "verified": true,
+      "private": false,
+      "profilePic": ""
+    },
+    {
+      "handle": "workhap",
+      "name": "Sho Dewan | Career Coach",
+      "followers": 1000000,
+      "posts": 0,
+      "verified": true,
+      "private": false,
+      "profilePic": ""
+    },
+    {
+      "handle": "wonsulting",
+      "name": "Wonsulting | Job Search & Careers",
+      "followers": 400000,
+      "posts": 0,
+      "verified": false,
+      "private": false,
+      "profilePic": ""
+    },
+    {
+      "handle": "farahsharghi",
+      "name": "Farah Sharghi | Career Coach (ex-Google recruiter)",
+      "followers": 46000,
+      "posts": 0,
+      "verified": false,
+      "private": false,
+      "profilePic": ""
+    },
+    {
+      "handle": "bylillianzhang",
+      "name": "Lillian Zhang | Early Career",
+      "followers": 115000,
+      "posts": 0,
+      "verified": false,
+      "private": false,
+      "profilePic": ""
+    },
+    {
+      "handle": "hrbestiespod",
+      "name": "HR Besties Podcast",
+      "followers": 51000,
+      "posts": 0,
+      "verified": false,
+      "private": false,
+      "profilePic": ""
+    },
+    {
+      "handle": "recruitingwithalex",
+      "name": "Recruiting with Alex",
+      "followers": 0,
+      "posts": 0,
+      "verified": false,
+      "private": false,
+      "profilePic": ""
+    }
+  ]
+}
